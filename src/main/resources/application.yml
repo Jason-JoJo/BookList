@@ -1,0 +1,16 @@
+
+book :
+  name : good
+  author : bell
+  isbn : ${random.int(9999)}
+  description : ${book.name},ggGood
+
+spring:
+  profiles:
+    active: dev
+  thymeleaf:
+    mode: HTML
+  devtools:
+    restart:
+      trigger-file: .trigger
+

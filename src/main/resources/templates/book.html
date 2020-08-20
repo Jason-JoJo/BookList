@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+<!--    <link  rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css" type="text/css">-->
+    <link th:href="@{/css/bootstrap.css}" href ="../static/css/bootstrap.css" rel="stylesheet" />
+<!--    <link th:href="@{/add/css/bootstrap.css}" href =" ../static/add/css/bootstrap.css" rel = "stylesheet" />-->
+
+    <!--    <script src="../static/js/bootstrap.js"></script>-->
+    <title>Detail</title>
+
+
+
+</head>
+<div class="container">
+<!--    容器是 Bootstrap 中最基本的佈局元素，容器 container 會預設的當你自適應寬跟高
+        （意味著 max-width 在每個螢幕大小的變化），只要使用 div 標籤 class 名稱為 container 就會載入框架了。-->
+    <!--<body>-->
+    <!--<div>-->
+    <!--    <p>-->
+    <!--        <strong> book name : </strong><span th:text="${book.name}">default</span>-->
+    <!--    </p>-->
+    <!--    <p>-->
+    <!--        <strong> author : </strong><span th:text="${book.author}">default</span>-->
+    <!--    </p>-->
+    <!--    <p>-->
+    <!--        <strong> description : </strong><span th:text="${book.description}">default</span>-->
+    <!--    </p>-->
+    <!--    <p>-->
+    <!--        <strong> status : </strong><span th:text="${book.status}">default</span>-->
+    <!--    </p>-->
+    <!--</div>-->
+    <!--</body>-->
+
+    <!--th:object="${book}一定要放在 * 上層屬性裡面-->
+    <body th:object="${book}">
+    <h2 class="page-header" style="margin-top: auto">Detail</h2>
+
+    <div class="well">
+        <p>
+            <strong> book name : </strong><span th:text="*{name}">default</span>
+        </p>
+        <p>
+            <strong> author : </strong><span th:text="*{author}">default</span>
+        </p>
+        <p>
+            <strong> description : </strong><span th:text="*{description}">default</span>
+        </p>
+        <p th:switch="*{status}">
+            <strong> status : </strong>
+                <span th:case="0">Not yet</span>
+                <span th:case="1">Like</span>
+                <span th:case="2">Read</span>
+                <span th:case="3">Just Read</span>
+        </p>
+    </div>
+                <div class="alert alert-success" th:unless="*{status == 0}">
+                    <strong>GOGO</strong>,keep going
+                </div>
+                <div class="alert alert-primary" th:if="*{status == 0}">
+                    <strong>No</strong>,start go
+                </div>
+        <a href="javascript:history.go(-1)" class="btn btn-danger">Return List</a>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!--<script src="../static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"  ></script>-->
+
+    <link th:href="@{/js/bootstrap.js}" href="../static/js/bootstrap.js" rel="stylesheet" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    </body>
+</div>
+</html>

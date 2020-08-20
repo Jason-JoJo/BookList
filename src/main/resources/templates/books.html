@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link th:href="@{/css/bootstrap.css}" href ="../static/css/bootstrap.css" rel="stylesheet" />
+    <title>books</title>
+</head>
+<body>
+    <h2 class="text-center" >Book List</h2>
+
+    <div class="alert alert-success alert-dismissible fade-in" th:unless="${#strings.isEmpty(message)}">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>News</strong>
+        <span th:text="${message}">default</span>
+    </div>
+    <div class="container custom-container-width">
+    <table class="table-bordered table-striped table-hover">
+        <thead>
+        <tr>
+            <p class="text-right"><a href="./input.html" th:href="@{/books/input}" class="btn btn-dark"> Add</a></p>
+            <th>#</th><th>Name</th><th>Author</th><th>Description</th><th>Status</th><th>update</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!--
+        count 記數 從一開始
+        index 索引直 從零開始
+        size 列表總數
+        even/odd 偶數/奇數
+        first/last 第一筆/最後一筆
+         th:class="${iterStat.even}? 'bg-warning' : 'bg-success'"  被上方的table-striped取代
+
+         th:href="@{'/books/' + ${book.id}}"
+                    ' 固定   ' + ${指定變數}
+
+        th:href="@{/books/{id}/input(id=${book.id})}"
+        -->
+            <!-- <tr th:each="book,iterStat:${books}"> -->
+            <tr th:each="book,iterStat:${page.content}">
+                <td th:text="${iterStat.count}">1</td>
+                <td ><a href="#" th:text="${book.name}" th:href="@{'/books/' + ${book.id}}"> Name</a></td>
+                <td th:text="${book.author}">Author</td>
+                <td th:text="${book.description}">Description</td>
+                <td th:switch="${book.status}">
+                    <span th:case="0" style="color:#005cbf">Not Yet</span>
+                    <span th:case="1" style="color:#bd2130">Like</span>
+                    <span th:case="2" style="color:#000000">Read</span>
+                    <span th:case="3" style="color:#80bdff">Just Read</span>
+                </td>
+                <td>
+                    <a href="#" th:href="@{/books/{id}/input(id=${book.id})}">update</a>&nbsp;
+<!--               相當於     <a th:href="/books/book.id/input">update</a>-->
+                    <a href="#" th:href="@{/books/{id}/delete(id=${book.id})}">delete</a>
+                </td>
+            </tr>
+<!--       <tr th:each="m : ${list}">  這是thymeleaf的for迴圈寫法，其中m是個臨時變數，像for(User u : userList)那樣中的u；後面是一個List
+                                       iterStat是狀態變數 .count從1開始記數、.index從0開始記數、 -->
+        </tbody>
+    </table>
+<!--        <nav class="pager" style="float: middle;list-style: none;">-->
+<!--            <li class="home" ><a href="#" th:href="@{books(page=1)}" th:unless="${page.first}">|&lt;</a></li>-->
+<!--            <li class="preview" ><a href="#" th:href="@{books(page=${page.number}-1)}" th:unless="${page.first}">pre</a></li>-->
+<!--            <li class="next"><a href="#" th:href="@{'books?page=' + ${page.number+1}}" th:unless="${page.last}">next</a></li>-->
+<!--            <li class="end"><a href="#" th:href="@{'books?page=' + ${page.size}}" th:unless="${page.last}">&gt;|</a></li>-->
+<!--        </nav>-->
+
+        <ui class="pager" style="center;list-style: none;">
+            <li class="nav" >
+                <a href="#" th:href="@{books(page=0)}" >|&lt;</a>
+                <a href="#" th:href="@{books(page=${page.number}-1)}" th:unless="${page.first}">&nbsp;&nbsp;pre&nbsp;&nbsp;</a>
+                <a th:unless="${page.number}-2 lt 0" href="#" th:href="@{books(page=${page.number}-2)}" th:text="${page.number}-1">&nbsp;&nbsp;*&nbsp;&nbsp;</a>
+                <a th:unless="${page.number}-1 lt 0" href="#" th:href="@{books(page=${page.number}-1)}" th:text="${page.number}">&nbsp;&nbsp;*&nbsp;&nbsp;</a>
+                <a>&nbsp;</a>
+                <a href="#" th:href="@{books(page=${page.number})}" th:text="${page.number}+1" style="font-size:18px;font-weight:bold;">&nbsp;*&nbsp;</a>
+                <a>&nbsp;</a>
+                <a th:unless="${page.number}+1 gt ${page.size}" href="#" th:href="@{books(page=${page.number}+1)}" th:text="${page.number}+2">&nbsp;&nbsp;*&nbsp;&nbsp;</a>
+                <a th:unless="${page.number}+2 gt ${page.size}" href="#" th:href="@{books(page=${page.number}+2)}" th:text="${page.number}+3">&nbsp;&nbsp;*&nbsp;&nbsp;</a>
+                <a th:if='${not page.last}' href="#" th:href="@{'books?page=' + ${page.number+1}}">&nbsp;&nbsp;next&nbsp;&nbsp;</a>
+                <a href="#" th:href="@{'books?page=' + ${page.size}}">&nbsp;&nbsp;&gt;|&nbsp;&nbsp;</a>
+            </li>
+
+
+<!--            <li class="nav" >-->
+<!--                <a href="#" th:href="@{books(page=0)}" th:unless="${page.first}">|&lt;</a>-->
+<!--                <a href="#" th:href="@{books(page=${page.number}-1)}" th:unless="${page.first}">&nbsp;pre&nbsp;</a>-->
+<!--                <a href="#" th:href="@{books(page=${page.number})}" th:text="${page.number}" >&nbsp;*&nbsp;</a>-->
+<!--                <a href="#" th:href="@{'books?page=' + ${page.number+1}}" th:unless="${page.last}">&nbsp;next&nbsp;</a>-->
+<!--                <a href="#" th:href="@{'books?page=' + ${page.size}}" th:unless="${page.last}" style="left">&nbsp;&gt;|&nbsp;</a>-->
+<!--            </li>-->
+
+<!--            <li class="preview" ><a href="#" th:href="@{books(page=${page.number}-1)}" th:unless="${page.first}">pre</a></li>-->
+<!--            <li class="next"><a href="#" th:href="@{'books?page=' + ${page.number+1}}" th:unless="${page.last}">next</a></li>-->
+<!--            <li class="end"><a href="#" th:href="@{'books?page=' + ${page.size}}" th:unless="${page.last}">&gt;|</a></li>-->
+
+<!--            <li class="test" th:each="p : ${page}">-->
+<!--                <a href="#" th:href="@{books(page=${page.number})}" th:text="${page.number}">*</a>-->
+
+<!--                https://www.javacodegeeks.com/2013/03/implement-bootstrap-pagination-with-spring-data-and-thymeleaf.html
+                        分頁功能   -->
+            </li>
+
+        </ui>
+
+    </div>
+
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link th:href="@{/js/bootstrap.js}" href="../static/js/bootstrap.min.js" rel="stylesheet" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link th:href="@{/css/bootstrap.css}" href ="#" rel="stylesheet" />
+
+</head>
+<body>
+    <h2 class="page-head" style="margin-left: 100px;margin-top: 30px">Add Book</h2>
+    <div class="container" style="max-width: 700px;margin-top: 30px">
+        <div class="well"> <!--
+        <input type="text" name="name" name 必須跟實體對象屬性名稱一致
+
+        -->
+            <form action="/books.html" th:action="@{/books}" th:object="${book}" method="post">
+                <input type="hidden" th:value="*{id}" name="id">
+                <div class="form-group">
+                    <label for="nameId">Name</label>
+                    <input type="text" name="name" id="nameId" class="form-control" th:field="*{name}">
+                </div>
+                <div class="form-group">
+                    <label for="authorId">Author</label>
+                    <input type="text" name="author" id="authorId" class="form-control" th:field="*{author}">
+                </div>
+                <div class="form-group">
+                    <label for="descriptionId">description</label>
+                    <input type="text" name="description" id="descriptionId" class="form-control" th:field="*{description}">
+                </div>
+                <div class="form-group">
+                    <label for="statusId">status</label>
+                    <select  name="status" id="statusId" class="form-control">
+                        <option value="0" th:selected="(*{status} == '0')">Not yet</option>
+                        <option value="1" th:selected="(*{status} == '1')">Like</option>
+                        <option value="2" th:selected="(*{status} == '2')">Read</option>
+                        <option value="3" th:selected="(*{status} == '3')">Just Read</option>
+                    </select>
+                </div>
+
+
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary">submit</button>
+            </p>
+
+        </form>
+
+    </div>
+    </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link th:href="@{/js/bootstrap.js}" href="../static/js/bootstrap.js" rel="stylesheet" />
+
+</body>
+</html>
